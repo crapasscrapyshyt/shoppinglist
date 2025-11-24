@@ -4,6 +4,10 @@
   <meta charset="UTF-8">
   <title>Shopping List</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <!-- אייקון לאתר (שימי כאן את שם הקובץ של האייקון שלך) -->
+  <link rel="icon" type="image/png" href="shopping-icon.png">
+
   <style>
     body {
       font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
@@ -380,6 +384,10 @@
         נקה את כל הסימונים
       </button>
 
+      <button type="button" class="btn-small" onclick="copyList()" style="margin-right:8px;">
+        העתק רשימה
+      </button>
+
       <p style="font-size:0.8rem;color:#555;margin:4px 0 6px;">
         אחרי הלחיצה – סמני הכל בתוך התיבה, העתיקי והדביקי איפה שתרצי (פתקים, וואטסאפ וכו').
       </p>
@@ -436,9 +444,10 @@
       const out = document.getElementById('output');
       out.value = lines.length ? lines.join('\n') : 'לא נבחרו פריטים.';
       out.focus();
+      out.select(); // בוחר אוטומטית את כל הטקסט
     }
 
-    // כפתור מחיקת רשימה – מרוקן את הטקסט בלבד
+    // מחיקת תוכן התיבה בלבד
     function clearList() {
       const out = document.getElementById('output');
       if (!out) return;
@@ -447,6 +456,26 @@
       out.textContent = '';
       out.blur();
       setTimeout(() => out.focus(), 50);
+    }
+
+    // העתקה ללוח (clipboard)
+    function copyList() {
+      const out = document.getElementById('output');
+      if (!out) return;
+      if (!out.value) {
+        alert('אין מה להעתיק – הרשימה ריקה.');
+        return;
+      }
+
+      out.focus();
+      out.select();
+
+      // ניסיון ראשון: execCommand (עובד ברוב הדפדפנים)
+      const success = document.execCommand && document.execCommand('copy');
+      if (!success && navigator.clipboard && navigator.clipboard.writeText) {
+        // ניסיון שני: Clipboard API המודרני
+        navigator.clipboard.writeText(out.value).catch(() => {});
+      }
     }
 
     // מיון אוטומטי לפי א-ב בכל קטגוריה
