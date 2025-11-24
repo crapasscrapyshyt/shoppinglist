@@ -168,7 +168,7 @@
     <div class="category" data-cat="vegfruit">
       <h2>ירקות ופירות</h2>
       <ul>
-        <!-- ירקות קודם -->
+        <!-- ירקות -->
         <li><label class="item-label"><input type="checkbox"><span>אבוקדו</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>בטטה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>גזר</span></label></li>
@@ -186,7 +186,7 @@
         <li><label class="item-label"><input type="checkbox"><span>שומר</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>תפוחי אדמה</span></label></li>
 
-        <!-- פירות אחר כך -->
+        <!-- פירות -->
         <li><label class="item-label"><input type="checkbox"><span>אבטיח</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>אגס</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>אשכוליות</span></label></li>
@@ -203,7 +203,6 @@
         <li><label class="item-label"><input type="checkbox"><span>תפוזים</span></label></li>
       </ul>
     </div>
-
 
     <div class="category" data-cat="dairy">
       <h2>מוצרי חלב וביצים</h2>
@@ -255,7 +254,7 @@
     <div class="category" data-cat="pantry">
       <h2>מזווה ותבלינים</h2>
       <ul>
-        <li><label class="item-label"><input type="checkbox"><span>חומוס בשימורים </span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>חומוס בשימורים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>חומוס יבש</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>טונה בשימורים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>רסק עגבניות מוטי</span></label></li>
@@ -301,7 +300,7 @@
         <li><label class="item-label"><input type="checkbox"><span>צלי כתף</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שוקיים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שייטל</span></label></li>
-		<li><label class="item-label"><input type="checkbox"><span>ציפס קפוא</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>ציפס קפוא</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>ירקות קפואים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>דג טרי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>דגים קפואים</span></label></li>
@@ -327,11 +326,11 @@
     <div class="category" data-cat="cleaning">
       <h2>ניקיון וכביסה</h2>
       <ul>
-	    <li><label class="item-label"><input type="checkbox"><span>00 ירוק</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>00 ירוק</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>אבקת כביסה/ג'ל</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>אקונומיקה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>חומר לניקוי רצפה</span></label></li>
-		<li><label class="item-label"><input type="checkbox"><span>מבריק נירוסטה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>מבריק נירוסטה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>מגבונים לחים לניקוי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>מרכך כביסה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>נוזל כלים</span></label></li>
@@ -368,18 +367,17 @@
     </div>
 
     <!-- רשימה מסוכמת -->
-<div class="category">
-  <h2>רשימה מסוכמת להעתקה</h2>
-  <button type="button" class="btn-generate" onclick="generateList()">יצירת רשימה</button>
-  <button type="button" class="btn-small" onclick="clearList()" style="margin-right:8px;">
-    מחיקת רשימה
-  </button>
-  <p style="font-size:0.8rem;color:#555;margin:4px 0 6px;">
-    אחרי הלחיצה – סמני הכל בתוך התיבה, העתיקי והדביקי איפה שתרצי (פתקים, וואטסאפ וכו').
-  </p>
-  <textarea id="output" placeholder="כאן תופיע הרשימה המסוכמת..."></textarea>
-</div>
-
+    <div class="category">
+      <h2>רשימה מסוכמת להעתקה</h2>
+      <button type="button" class="btn-generate" onclick="generateList()">יצירת רשימה</button>
+      <button type="button" class="btn-small" onclick="clearList()" style="margin-right:8px;">
+        מחיקת רשימה
+      </button>
+      <p style="font-size:0.8rem;color:#555;margin:4px 0 6px;">
+        אחרי הלחיצה – סמני הכל בתוך התיבה, העתיקי והדביקי איפה שתרצי (פתקים, וואטסאפ וכו').
+      </p>
+      <textarea id="output" placeholder="כאן תופיע הרשימה המסוכמת..."></textarea>
+    </div>
 
   </div>
 
@@ -431,6 +429,17 @@
       const out = document.getElementById('output');
       out.value = lines.length ? lines.join('\n') : 'לא נבחרו פריטים.';
       out.focus();
+    }
+
+    // כפתור מחיקת רשימה – מרוקן את הטקסט בלבד
+    function clearList() {
+      const out = document.getElementById('output');
+      if (!out) return;
+
+      out.value = '';
+      out.textContent = '';
+      out.blur();
+      setTimeout(() => out.focus(), 50);
     }
 
     // מיון אוטומטי לפי א-ב בכל קטגוריה
