@@ -675,7 +675,7 @@
       let min = '1';
 
       if (catId === 'vegfruit') {
-        const herbs = ['כוסברה', 'נענע', 'פטרוזיליה', 'שמיר'];
+        const herbs = ['כוסברה', 'נענע','חסה', 'פטרוזיליה', 'שמיר'];
         if (herbs.includes(itemName)) {
           unitType = 'units';
           unitLabel = 'יחידות';
@@ -697,13 +697,14 @@
           'מוצרלה',
           'מנצ׳גו',
           'קממבר',
+          'פרמז'ן',
           'ריקוטה'
         ];
         if (cheeseKg.includes(itemName)) {
           unitType = 'kg';
           unitLabel = 'ק"ג';
-          step = '0.5';
-          min = '0.5';
+          step = '0.1';
+          min = '0.1';
         } else if (itemName === 'ביצים') {
           unitType = 'units';      // סוג לוגי
           unitLabel = 'חבילות';   // תצוגה
