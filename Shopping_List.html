@@ -144,6 +144,19 @@
       background: #0060c4;
     }
 
+    .primary-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      align-items: center;
+      margin-bottom: 6px;
+    }
+
+    #more-actions {
+      margin-top: 4px;
+      display: none;
+    }
+
     @media (max-width: 600px) {
       ul {
         columns: 1;
@@ -382,31 +395,43 @@
     <div class="category">
       <h2>רשימה מסוכמת להעתקה / צ'ק ליסט</h2>
 
-      <button type="button" class="btn-generate" onclick="generateList()">יצירת רשימה</button>
+      <!-- כפתורים ראשיים שתמיד נראים -->
+      <div class="primary-actions">
+        <button type="button" class="btn-generate" onclick="generateList()">
+          יצירת רשימה
+        </button>
 
-      <button type="button" class="btn-small" onclick="clearList()" style="margin-right:8px;">
-        מחיקת רשימה
-      </button>
+        <button type="button" class="btn-generate" onclick="generateSuperChecklist()">
+          יצירת צ'ק ליסט לסופר
+        </button>
 
-      <button type="button" class="btn-small" onclick="clearAll()" style="margin-right:8px;">
-        נקה את כל הסימונים
-      </button>
+        <button type="button" class="btn-generate" onclick="generateMissingList()">
+          יצירת רשימת השלמות
+        </button>
 
-      <button type="button" class="btn-small" onclick="fullReset()" style="margin-right:8px;">
-        איפוס מלא
-      </button>
+        <button type="button" class="btn-small" onclick="toggleMore(this)">
+          עוד ▾
+        </button>
+      </div>
 
-      <button type="button" class="btn-small" onclick="copyList()" style="margin-right:8px;">
-        העתק רשימה
-      </button>
+      <!-- כפתורי "עוד" שמופיעים רק כשנלחץ -->
+      <div id="more-actions">
+        <button type="button" class="btn-small" onclick="clearList()" style="margin-right:0;">
+          מחיקת רשימה
+        </button>
 
-      <button type="button" class="btn-small" onclick="generateSuperChecklist()" style="margin-right:8px;">
-        יצירת צ'ק ליסט לסופר
-      </button>
+        <button type="button" class="btn-small" onclick="clearAll()" style="margin-right:8px;">
+          נקה את כל הסימונים
+        </button>
 
-      <button type="button" class="btn-small" onclick="generateMissingList()" style="margin-right:8px;">
-        יצירת רשימת השלמות
-      </button>
+        <button type="button" class="btn-small" onclick="copyList()" style="margin-right:8px;">
+          העתק רשימה
+        </button>
+
+        <button type="button" class="btn-small" onclick="fullReset()" style="margin-right:8px;">
+          איפוס מלא
+        </button>
+      </div>
 
       <p style="font-size:0.8rem;color:#555;margin:4px 0 6px;">
         אחרי הלחיצה – סמני הכל בתוך התיבה, העתיקי או עברי לצ'ק ליסט בסופר למטה.
@@ -453,6 +478,22 @@
       boxes.forEach(cb => cb.checked = false);
       saveMainChecks();
       saveSuperChecklistFromDOM();
+    }
+
+    // כפתור "עוד" – פותח/סוגר את הכפתורים הנוספים
+    function toggleMore(btn) {
+      const more = document.getElementById('more-actions');
+      if (!more) return;
+      const isHidden = (more.style.display === 'none' || more.style.display === '');
+      if (isHidden) {
+        more.style.display = 'flex';
+        more.style.flexWrap = 'wrap';
+        more.style.gap = '8px';
+        btn.textContent = 'פחות ▴';
+      } else {
+        more.style.display = 'none';
+        btn.textContent = 'עוד ▾';
+      }
     }
 
     // --- שמירת סימונים ברשימה הראשית ---
@@ -815,6 +856,10 @@
         select.value = 'all';
         updateVisibleCategory();
       }
+
+      // סגירת "עוד"
+      const more = document.getElementById('more-actions');
+      if (more) more.style.display = 'none';
     }
 
     // מיון אוטומטי לפי א-ב בכל קטגוריה
