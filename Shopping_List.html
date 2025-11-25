@@ -83,6 +83,13 @@
       border-bottom: 1px solid #eee;
       padding-bottom: 4px;
     }
+    .category h3 {
+      font-size: 0.95rem;
+      margin: 8px 0 4px;
+      border-bottom: 1px dashed #eee;
+      padding-bottom: 2px;
+      color: #444;
+    }
     ul {
       list-style: none;
       padding: 0;
@@ -148,7 +155,7 @@
   <div class="wrapper">
     <h1>רשימת קניות לבית משפחת מרום</h1>
     <div class="subtitle">
-      בחרי קטגוריה, סמני מה שצריך לקנות → לחצי "יצירת רשימה" → העתיקי את הטקסט.
+      בחרי קטגוריה, סמני מה שצריך לקנות → לחצי "יצירת רשימה" → העתקי או עברי לצ'ק ליסט בסופר.
     </div>
 
     <!-- אזור בחירת קטגוריה -->
@@ -180,17 +187,16 @@
         <li><label class="item-label"><input type="checkbox"><span>בטטה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>גזר</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>חסה</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>טירס טרי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>כוסברה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>מלפפונים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>נענע</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>עגבניות</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>עגבניות שרי</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>עגבניות מגי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>פטרוזיליה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>פלפלים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שמיר</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שומר</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>תירס</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>תפוחי אדמה</span></label></li>
 
         <!-- פירות -->
@@ -224,7 +230,7 @@
         <li><label class="item-label"><input type="checkbox"><span>גבינה צהובה פרוסה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>גבינת פרמז׳ן מגורדת</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>גבינת שמנת</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>דני / מילקי</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>דני/מילקי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>חלב</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>יוגורט</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>יוגורט טבעי</span></label></li>
@@ -252,7 +258,6 @@
         <li><label class="item-label"><input type="checkbox"><span>טורטיה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>פיתות</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>פסטה</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>קמח</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>קורנפלקס/גרנולה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>קרקרים</span></label></li>
       </ul>
@@ -278,6 +283,7 @@
         <li><label class="item-label"><input type="checkbox"><span>פלפל שחור</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>פפריקה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>פרורי לחם</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>קמח</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שום גבישי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שמן זית</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שמן קנולה</span></label></li>
@@ -298,7 +304,6 @@
         <li><label class="item-label"><input type="checkbox"><span>נקניקיות בקר</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>נקניקיות ילדים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>נקניקיות עוף</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>נקניקיות מבוגרים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>סטייק סינטה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>סלמון, פילה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>עוף שלם</span></label></li>
@@ -349,7 +354,7 @@
     <div class="category" data-cat="toilet">
       <h2>טואלטיקה</h2>
       <ul>
-        <li><label class="item-label"><input type="checkbox"><span>טמפונים / תחבושות</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>טמפונים/תחבושות</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>דאודורנט</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>מברשות שיניים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>מגבוני אף/טישו</span></label></li>
@@ -366,7 +371,7 @@
       <h2>שונות לבית</h2>
       <ul>
         <li><label class="item-label"><input type="checkbox"><span>גפרורים/מצית</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>זיפלוק / שקיות עם סגירה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>זיפלוק/שקיות עם סגירה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>נייר אפייה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>נייר אלומיניום</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שקיות סנדוויצ'ים</span></label></li>
@@ -375,7 +380,7 @@
 
     <!-- רשימה מסוכמת -->
     <div class="category">
-      <h2>רשימה מסוכמת להעתקה</h2>
+      <h2>רשימה מסוכמת להעתקה / צ'ק ליסט</h2>
 
       <button type="button" class="btn-generate" onclick="generateList()">יצירת רשימה</button>
 
@@ -391,10 +396,23 @@
         העתק רשימה
       </button>
 
+      <button type="button" class="btn-small" onclick="generateSuperChecklist()" style="margin-right:8px;">
+        יצירת צ'ק ליסט לסופר
+      </button>
+
       <p style="font-size:0.8rem;color:#555;margin:4px 0 6px;">
-        אחרי הלחיצה – סמני הכל בתוך התיבה, העתיקי והדביקי איפה שתרצי (פתקים, וואטסאפ וכו').
+        אחרי הלחיצה – סמני הכל בתוך התיבה, העתיקי או עברי לצ'ק ליסט בסופר למטה.
       </p>
       <textarea id="output" placeholder="כאן תופיע הרשימה המסוכמת..."></textarea>
+    </div>
+
+    <!-- צ'ק ליסט בסופר -->
+    <div class="category" id="super-checklist" style="display:none;">
+      <h2>צ'ק ליסט בסופר</h2>
+      <p style="font-size:0.85rem;color:#555;margin:4px 0 10px;">
+        כאן תופיע רשימת קניות חדשה, רק עם מה שסימנת. בסופר פשוט סמני מה כבר לקחת לעגלה.
+      </p>
+      <div id="superChecklistContainer"></div>
     </div>
 
   </div>
@@ -479,6 +497,62 @@
         // ניסיון שני: Clipboard API המודרני
         navigator.clipboard.writeText(out.value).catch(() => {});
       }
+    }
+
+    // יצירת צ'ק ליסט לסופר מתוך הפריטים המסומנים
+    function generateSuperChecklist() {
+      const container = document.getElementById('superChecklistContainer');
+      const section = document.getElementById('super-checklist');
+      container.innerHTML = '';
+
+      const categories = document.querySelectorAll('.category[data-cat]');
+      let hasAny = false;
+
+      categories.forEach(cat => {
+        const titleEl = cat.querySelector('h2');
+        const catName = titleEl ? titleEl.textContent.trim() : '';
+        const checked = cat.querySelectorAll('input[type="checkbox"]:checked');
+
+        if (checked.length > 0) {
+          hasAny = true;
+
+          const block = document.createElement('div');
+          const h3 = document.createElement('h3');
+          h3.textContent = catName;
+          block.appendChild(h3);
+
+          const ul = document.createElement('ul');
+
+          checked.forEach(cb => {
+            const li = document.createElement('li');
+            const label = document.createElement('label');
+            label.className = 'item-label';
+
+            const input = document.createElement('input');
+            input.type = 'checkbox';
+
+            const span = document.createElement('span');
+            span.textContent = cb.parentElement.querySelector('span').textContent.trim();
+
+            label.appendChild(input);
+            label.appendChild(span);
+            li.appendChild(label);
+            ul.appendChild(li);
+          });
+
+          block.appendChild(ul);
+          container.appendChild(block);
+        }
+      });
+
+      if (!hasAny) {
+        section.style.display = 'none';
+        alert('לא סומנו פריטים – סומני קודם מה צריך לקנות.');
+        return;
+      }
+
+      section.style.display = '';
+      section.scrollIntoView({ behavior: 'smooth' });
     }
 
     // מיון אוטומטי לפי א-ב בכל קטגוריה
