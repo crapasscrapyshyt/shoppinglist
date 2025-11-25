@@ -157,6 +157,16 @@
       display: none;
     }
 
+    #newItemText {
+      flex: 1;
+      min-width: 140px;
+      padding: 6px 8px;
+      font-size: 0.9rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      background: #fff;
+    }
+
     @media (max-width: 600px) {
       ul {
         columns: 1;
@@ -168,10 +178,10 @@
   <div class="wrapper">
     <h1>רשימת קניות לבית משפחת מרום</h1>
     <div class="subtitle">
-      בחרי קטגוריה, סמני מה שצריך לקנות → לחצי "יצירת רשימה" → העתקי או עברי לצ'ק ליסט בסופר.
+      בחר/י קטגוריה, סמני מה שצריך לקנות → "יצירת רשימה" → העתקי או עברי לצ'ק ליסט בסופר.
     </div>
 
-    <!-- אזור בחירת קטגוריה -->
+    <!-- אזור בחירת קטגוריה + הוספת פריט -->
     <div class="controls">
       <label for="categorySelect">קטגוריה להצגה:</label>
       <select id="categorySelect">
@@ -188,6 +198,10 @@
       </select>
       <button type="button" class="btn-small" onclick="showAll()">הצג הכל</button>
       <button type="button" class="btn-small" onclick="clearAll()">נקה את כל הסימונים</button>
+
+      <!-- הוספת פריט חדש -->
+      <input type="text" id="newItemText" placeholder="הוספת פריט חדש לרשימה...">
+      <button type="button" class="btn-small" onclick="addNewItem()">הוסף פריט</button>
     </div>
 
     <!-- קטגוריות -->
@@ -457,6 +471,7 @@
 
     const MAIN_STORAGE_KEY = 'shopping_main_checks_v1';
     const SUPER_STORAGE_KEY = 'shopping_super_list_v1';
+    const CUSTOM_ITEMS_KEY = 'shopping_custom_items_v1';
 
     function updateVisibleCategory() {
       const value = select.value;
@@ -495,6 +510,125 @@
         more.style.display = 'none';
         btn.textContent = 'עוד ▾';
       }
+    }
+
+    // --- הוספת פריט חדש ---
+    function addNewItem() {
+      const input = document.getElementById('newItemText');
+      if (!input) return;
+      const text = (input.value || '').trim();
+      if (!text) return;
+
+      const catId = select.value;
+      if (catId === 'all') {
+        alert('כדי להוסיף פריט חדש, בחרי קודם קטגוריה למעלה.');
+        return;
+      }
+
+      const cat = document.querySelector('.category[data-cat="' + catId + '"]');
+      if (!cat) return;
+      const ul = cat.querySelector('ul');
+      if (!ul) return;
+
+      // בדיקת כפילות
+      const existingSpans = ul.querySelectorAll('span');
+      for (const span of existingSpans) {
+        if (span.textContent.trim() === text) {
+          alert('הפריט כבר קיים בקטגוריה הזו.');
+          return;
+        }
+      }
+
+      // יצירת LI חדש
+      const li = document.createElement('li');
+      const label = document.createElement('label');
+      label.className = 'item-label';
+
+      const cb = document.createElement('input');
+      cb.type = 'checkbox';
+      // מאזין שמירה
+      cb.addEventListener('change', saveMainChecks);
+
+      const span = document.createElement('span');
+      span.textContent = text;
+
+      label.appendChild(cb);
+      label.appendChild(span);
+      li.appendChild(label);
+      ul.appendChild(li);
+
+      // שמירת הפריט החדש ב-localStorage
+      saveCustomItem(catId, text);
+
+      // מיון מחדש
+      sortItemsInCategories();
+
+      // ניקוי השדה
+      input.value = '';
+      saveMainChecks();
+    }
+
+    function saveCustomItem(catId, text) {
+      if (!window.localStorage) return;
+      let data = {};
+      const raw = localStorage.getItem(CUSTOM_ITEMS_KEY);
+      if (raw) {
+        try {
+          data = JSON.parse(raw) || {};
+        } catch (e) {
+          data = {};
+        }
+      }
+      if (!Array.isArray(data[catId])) {
+        data[catId] = [];
+      }
+      if (!data[catId].includes(text)) {
+        data[catId].push(text);
+      }
+      try {
+        localStorage.setItem(CUSTOM_ITEMS_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function restoreCustomItems() {
+      if (!window.localStorage) return;
+      const raw = localStorage.getItem(CUSTOM_ITEMS_KEY);
+      if (!raw) return;
+
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        return;
+      }
+      if (!data || typeof data !== 'object') return;
+
+      Object.keys(data).forEach(catId => {
+        const items = data[catId];
+        if (!Array.isArray(items)) return;
+        const cat = document.querySelector('.category[data-cat="' + catId + '"]');
+        if (!cat) return;
+        const ul = cat.querySelector('ul');
+        if (!ul) return;
+
+        items.forEach(text => {
+          const li = document.createElement('li');
+          const label = document.createElement('label');
+          label.className = 'item-label';
+
+          const cb = document.createElement('input');
+          cb.type = 'checkbox';
+          cb.addEventListener('change', saveMainChecks);
+
+          const span = document.createElement('span');
+          span.textContent = text;
+
+          label.appendChild(cb);
+          label.appendChild(span);
+          li.appendChild(label);
+          ul.appendChild(li);
+        });
+      });
     }
 
     // --- שמירת סימונים ברשימה הראשית ---
@@ -655,7 +789,7 @@
 
       if (!hasAny) {
         section.style.display = 'none';
-        alert('לא סומנו פריטים – סומני קודם מה צריך לקנות.');
+        alert('לא סומנו פריטים – סמן/י קודם מה צריך לקנות.');
         saveSuperChecklistFromDOM();
         return;
       }
@@ -830,39 +964,16 @@
       out.select();
     }
 
-    // איפוס מלא – מוחק הכול
+    // איפוס מלא – מוחק הכול (כולל פריטים שהוספת) ומרענן את הדף
     function fullReset() {
-      // ניקוי localStorage
       if (window.localStorage) {
         try {
           localStorage.removeItem(MAIN_STORAGE_KEY);
           localStorage.removeItem(SUPER_STORAGE_KEY);
+          localStorage.removeItem(CUSTOM_ITEMS_KEY);
         } catch (e) {}
       }
-
-      // ביטול כל הסימונים ברשימה הראשית
-      const mainBoxes = document.querySelectorAll('.category[data-cat] input[type="checkbox"]');
-      mainBoxes.forEach(cb => cb.checked = false);
-
-      // ניקוי צ'ק ליסט בסופר
-      const container = document.getElementById('superChecklistContainer');
-      const section = document.getElementById('super-checklist');
-      if (container) container.innerHTML = '';
-      if (section) section.style.display = 'none';
-
-      // ניקוי טקסט בתיבה
-      const out = document.getElementById('output');
-      if (out) out.value = '';
-
-      // החזרת סינון קטגוריות ל"כולם"
-      if (select) {
-        select.value = 'all';
-        updateVisibleCategory();
-      }
-
-      // סגירת "עוד"
-      const more = document.getElementById('more-actions');
-      if (more) more.style.display = 'none';
+      location.reload();
     }
 
     // מיון אוטומטי לפי א-ב בכל קטגוריה
@@ -884,6 +995,7 @@
     }
 
     document.addEventListener('DOMContentLoaded', () => {
+      restoreCustomItems();
       sortItemsInCategories();
       restoreMainChecks();
       attachMainCheckboxListeners();
