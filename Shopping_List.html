@@ -405,10 +405,6 @@
           יצירת צ'ק ליסט לסופר
         </button>
 
-        <button type="button" class="btn-generate" onclick="generateMissingList()">
-          יצירת רשימת השלמות
-        </button>
-
         <button type="button" class="btn-small" onclick="toggleMore(this)">
           עוד ▾
         </button>
@@ -446,6 +442,11 @@
         כאן תופיע רשימת קניות חדשה, רק עם מה שסימנת. בסופר פשוט סמני מה כבר לקחת לעגלה.
       </p>
       <div id="superChecklistContainer"></div>
+
+      <!-- כפתור יצירת רשימת השלמות מתחת לצ'ק ליסט -->
+      <button type="button" class="btn-generate" onclick="generateMissingList()" style="margin-top:8px;">
+        יצירת רשימת השלמות
+      </button>
     </div>
 
   </div>
@@ -823,6 +824,8 @@
         out.value = lines.join('\n');
       }
 
+      // גלילה אוטומטית לרשימה למעלה
+      out.scrollIntoView({ behavior: 'smooth' });
       out.focus();
       out.select();
     }
