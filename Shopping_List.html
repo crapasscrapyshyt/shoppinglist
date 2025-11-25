@@ -421,6 +421,9 @@
     const select = document.getElementById('categorySelect');
     const catBoxes = document.querySelectorAll('.category[data-cat]');
 
+    const MAIN_STORAGE_KEY = 'shopping_main_checks_v1';
+    const SUPER_STORAGE_KEY = 'shopping_super_list_v1';
+
     function updateVisibleCategory() {
       const value = select.value;
       catBoxes.forEach(cat => {
@@ -440,10 +443,67 @@
     function clearAll() {
       const boxes = document.querySelectorAll('input[type="checkbox"]');
       boxes.forEach(cb => cb.checked = false);
+      saveMainChecks();
+      saveSuperChecklistFromDOM();
+    }
+
+    // --- שמירת סימונים ברשימה הראשית ---
+    function saveMainChecks() {
+      if (!window.localStorage) return;
+      const data = {};
+      const categories = document.querySelectorAll('.category[data-cat]');
+      categories.forEach(cat => {
+        const catId = cat.getAttribute('data-cat') || '';
+        const items = cat.querySelectorAll('li');
+        items.forEach(li => {
+          const cb = li.querySelector('input[type="checkbox"]');
+          const span = li.querySelector('span');
+          if (!cb || !span) return;
+          const text = span.textContent.trim();
+          const key = catId + '||' + text;
+          data[key] = cb.checked;
+        });
+      });
+      try {
+        localStorage.setItem(MAIN_STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    function restoreMainChecks() {
+      if (!window.localStorage) return;
+      const raw = localStorage.getItem(MAIN_STORAGE_KEY);
+      if (!raw) return;
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        return;
+      }
+      const categories = document.querySelectorAll('.category[data-cat]');
+      categories.forEach(cat => {
+        const catId = cat.getAttribute('data-cat') || '';
+        const items = cat.querySelectorAll('li');
+        items.forEach(li => {
+          const cb = li.querySelector('input[type="checkbox"]');
+          const span = li.querySelector('span');
+          if (!cb || !span) return;
+          const text = span.textContent.trim();
+          const key = catId + '||' + text;
+          if (Object.prototype.hasOwnProperty.call(data, key)) {
+            cb.checked = !!data[key];
+          }
+        });
+      });
+    }
+
+    function attachMainCheckboxListeners() {
+      const boxes = document.querySelectorAll('.category[data-cat] input[type="checkbox"]');
+      boxes.forEach(cb => {
+        cb.addEventListener('change', saveMainChecks);
+      });
     }
 
     select.addEventListener('change', updateVisibleCategory);
-    updateVisibleCategory(); // ברירת מחדל
 
     function generateList() {
       const lines = [];
@@ -491,10 +551,8 @@
       out.focus();
       out.select();
 
-      // ניסיון ראשון: execCommand (עובד ברוב הדפדפנים)
       const success = document.execCommand && document.execCommand('copy');
       if (!success && navigator.clipboard && navigator.clipboard.writeText) {
-        // ניסיון שני: Clipboard API המודרני
         navigator.clipboard.writeText(out.value).catch(() => {});
       }
     }
@@ -548,11 +606,116 @@
       if (!hasAny) {
         section.style.display = 'none';
         alert('לא סומנו פריטים – סומני קודם מה צריך לקנות.');
+        saveSuperChecklistFromDOM();
         return;
       }
 
       section.style.display = '';
       section.scrollIntoView({ behavior: 'smooth' });
+
+      saveSuperChecklistFromDOM();
+    }
+
+    // שמירת צ'ק ליסט בסופר ל-localStorage
+    function saveSuperChecklistFromDOM() {
+      if (!window.localStorage) return;
+      const container = document.getElementById('superChecklistContainer');
+      if (!container) return;
+      const data = [];
+
+      const blocks = Array.from(container.children);
+      blocks.forEach(block => {
+        const h3 = block.querySelector('h3');
+        if (!h3) return;
+        const catName = h3.textContent.trim();
+        const lis = block.querySelectorAll('li');
+        lis.forEach(li => {
+          const cb = li.querySelector('input[type="checkbox"]');
+          const span = li.querySelector('span');
+          if (!cb || !span) return;
+          data.push({
+            cat: catName,
+            item: span.textContent.trim(),
+            done: cb.checked
+          });
+        });
+      });
+
+      try {
+        localStorage.setItem(SUPER_STORAGE_KEY, JSON.stringify(data));
+      } catch (e) {}
+    }
+
+    // שחזור צ'ק ליסט בסופר מ-localStorage
+    function restoreSuperChecklist() {
+      if (!window.localStorage) return;
+      const raw = localStorage.getItem(SUPER_STORAGE_KEY);
+      const section = document.getElementById('super-checklist');
+      const container = document.getElementById('superChecklistContainer');
+      container.innerHTML = '';
+      if (!raw) {
+        section.style.display = 'none';
+        return;
+      }
+      let data;
+      try {
+        data = JSON.parse(raw);
+      } catch (e) {
+        section.style.display = 'none';
+        return;
+      }
+      if (!Array.isArray(data) || data.length === 0) {
+        section.style.display = 'none';
+        return;
+      }
+
+      const byCat = new Map();
+      data.forEach(entry => {
+        if (!entry || !entry.cat || !entry.item) return;
+        if (!byCat.has(entry.cat)) byCat.set(entry.cat, []);
+        byCat.get(entry.cat).push(entry);
+      });
+
+      byCat.forEach((items, catName) => {
+        const block = document.createElement('div');
+        const h3 = document.createElement('h3');
+        h3.textContent = catName;
+        block.appendChild(h3);
+
+        const ul = document.createElement('ul');
+        items.forEach(entry => {
+          const li = document.createElement('li');
+          const label = document.createElement('label');
+          label.className = 'item-label';
+
+          const input = document.createElement('input');
+          input.type = 'checkbox';
+          input.checked = !!entry.done;
+
+          const span = document.createElement('span');
+          span.textContent = entry.item;
+
+          label.appendChild(input);
+          label.appendChild(span);
+          li.appendChild(label);
+          ul.appendChild(li);
+        });
+
+        block.appendChild(ul);
+        container.appendChild(block);
+      });
+
+      section.style.display = '';
+    }
+
+    function attachSuperChecklistListeners() {
+      const container = document.getElementById('superChecklistContainer');
+      if (!container) return;
+      container.addEventListener('change', (e) => {
+        if (e.target && e.target.matches('input[type="checkbox"]')) {
+          saveSuperChecklistFromDOM();
+        }
+      });
     }
 
     // מיון אוטומטי לפי א-ב בכל קטגוריה
@@ -573,7 +736,14 @@
       });
     }
 
-    document.addEventListener('DOMContentLoaded', sortItemsInCategories);
+    document.addEventListener('DOMContentLoaded', () => {
+      sortItemsInCategories();
+      restoreMainChecks();
+      attachMainCheckboxListeners();
+      restoreSuperChecklist();
+      attachSuperChecklistListeners();
+      updateVisibleCategory(); // ברירת מחדל
+    });
   </script>
 </body>
 </html>
