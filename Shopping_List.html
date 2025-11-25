@@ -144,14 +144,6 @@
       background: #0060c4;
     }
 
-    /* מצב סופר – מציג רק את צ'ק ליסט הסופר */
-    body.super-mode .category {
-      display: none;
-    }
-    body.super-mode #super-checklist {
-      display: block !important;
-    }
-
     @media (max-width: 600px) {
       ul {
         columns: 1;
@@ -412,10 +404,6 @@
         יצירת רשימת השלמות
       </button>
 
-      <button type="button" class="btn-small" id="superModeBtn" onclick="toggleSuperMode()" style="margin-right:8px;">
-        מצב סופר
-      </button>
-
       <button type="button" class="btn-small" onclick="fullReset()" style="margin-right:8px;">
         איפוס מלא
       </button>
@@ -443,8 +431,6 @@
 
     const MAIN_STORAGE_KEY = 'shopping_main_checks_v1';
     const SUPER_STORAGE_KEY = 'shopping_super_list_v1';
-
-    let inSuperMode = false;
 
     function updateVisibleCategory() {
       const value = select.value;
@@ -800,28 +786,6 @@
       out.select();
     }
 
-    // מצב סופר – מציג רק את צ'ק ליסט הסופר
-    function toggleSuperMode() {
-      const section = document.getElementById('super-checklist');
-      const container = document.getElementById('superChecklistContainer');
-      if (!section || !container || !container.children.length || section.style.display === 'none') {
-        alert('אין צ\'ק ליסט בסופר – צרי קודם צ\'ק ליסט מהפריטים המסומנים.');
-        return;
-      }
-
-      inSuperMode = !inSuperMode;
-      document.body.classList.toggle('super-mode', inSuperMode);
-
-      const btn = document.getElementById('superModeBtn');
-      if (btn) {
-        btn.textContent = inSuperMode ? 'יציאה ממצב סופר' : 'מצב סופר';
-      }
-
-      if (inSuperMode) {
-        section.scrollIntoView({ behavior: 'smooth' });
-      }
-    }
-
     // איפוס מלא – מוחק הכול
     function fullReset() {
       // ניקוי localStorage
@@ -845,12 +809,6 @@
       // ניקוי טקסט בתיבה
       const out = document.getElementById('output');
       if (out) out.value = '';
-
-      // יציאה ממצב סופר
-      inSuperMode = false;
-      document.body.classList.remove('super-mode');
-      const btn = document.getElementById('superModeBtn');
-      if (btn) btn.textContent = 'מצב סופר';
 
       // החזרת סינון קטגוריות ל"כולם"
       if (select) {
