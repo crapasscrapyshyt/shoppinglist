@@ -117,6 +117,21 @@
       color: #999;
     }
 
+    .qty-wrapper {
+      display: none;
+      align-items: center;
+      gap: 4px;
+      margin-right: 6px;
+      font-size: 0.8rem;
+    }
+    .qty-input {
+      width: 60px;
+      font-size: 0.8rem;
+      padding: 2px 4px;
+      border-radius: 6px;
+      border: 1px solid #ccc;
+    }
+
     #output {
       width: 100%;
       min-height: 140px;
@@ -469,7 +484,7 @@
     const select = document.getElementById('categorySelect');
     const catBoxes = document.querySelectorAll('.category[data-cat]');
 
-    const MAIN_STORAGE_KEY = 'shopping_main_checks_v1';
+    const MAIN_STORAGE_KEY = 'shopping_main_checks_v2';
     const SUPER_STORAGE_KEY = 'shopping_super_list_v1';
     const CUSTOM_ITEMS_KEY = 'shopping_custom_items_v1';
 
@@ -491,7 +506,10 @@
 
     function clearAll() {
       const boxes = document.querySelectorAll('.category[data-cat] input[type="checkbox"]');
-      boxes.forEach(cb => cb.checked = false);
+      boxes.forEach(cb => {
+        cb.checked = false;
+        toggleQtyVisibility(cb);
+      });
       saveMainChecks();
       saveSuperChecklistFromDOM();
     }
@@ -521,7 +539,7 @@
 
       const catId = select.value;
       if (catId === 'all') {
-        alert('כדי להוסיף פריט חדש, בחרי קודם קטגוריה למעלה.');
+        alert('כדי להוסיף פריט חדש, בחר/י קודם קטגוריה למעלה.');
         return;
       }
 
@@ -546,8 +564,6 @@
 
       const cb = document.createElement('input');
       cb.type = 'checkbox';
-      // מאזין שמירה
-      cb.addEventListener('change', saveMainChecks);
 
       const span = document.createElement('span');
       span.textContent = text;
@@ -556,6 +572,12 @@
       label.appendChild(span);
       li.appendChild(label);
       ul.appendChild(li);
+
+      // הוספת שדה כמות לפריט החדש
+      addQtyToLi(li, catId);
+
+      // מאזין שינוי לסימון
+      cb.addEventListener('change', onMainCheckboxChange);
 
       // שמירת הפריט החדש ב-localStorage
       saveCustomItem(catId, text);
@@ -618,7 +640,6 @@
 
           const cb = document.createElement('input');
           cb.type = 'checkbox';
-          cb.addEventListener('change', saveMainChecks);
 
           const span = document.createElement('span');
           span.textContent = text;
@@ -631,7 +652,97 @@
       });
     }
 
-    // --- שמירת סימונים ברשימה הראשית ---
+    // --- כמות לפריט ---
+    function addQtyToLi(li, catId) {
+      if (li.querySelector('.qty-wrapper')) return;
+      const label = li.querySelector('label.item-label');
+      if (!label) return;
+
+      const nameSpan = label.querySelector('span');
+      const itemName = nameSpan ? nameSpan.textContent.trim() : '';
+
+      const wrapper = document.createElement('span');
+      wrapper.className = 'qty-wrapper';
+
+      const qtyInput = document.createElement('input');
+      qtyInput.type = 'number';
+      qtyInput.className = 'qty-input';
+
+      let unitType = 'units';
+      let step = '1';
+      let min = '1';
+
+      if (catId === 'vegfruit') {
+        const herbs = ['כוסברה', 'נענע', 'פטרוזיליה', 'שמיר'];
+        if (herbs.includes(itemName)) {
+          unitType = 'units';
+          step = '1';
+          min = '1';
+        } else {
+          unitType = 'kg';
+          step = '0.5';
+          min = '0.5';
+        }
+      } else {
+        unitType = 'units';
+        step = '1';
+        min = '1';
+      }
+
+      qtyInput.step = step;
+      qtyInput.min = min;
+      qtyInput.dataset.unit = unitType;
+      qtyInput.dataset.default = min;
+
+      const unitSpan = document.createElement('span');
+      unitSpan.className = 'qty-unit';
+      unitSpan.textContent = unitType === 'kg' ? 'ק"ג' : 'יחידות';
+
+      wrapper.appendChild(qtyInput);
+      wrapper.appendChild(unitSpan);
+
+      // כברירת מחדל מוסתר
+      wrapper.style.display = 'none';
+
+      label.appendChild(wrapper);
+
+      qtyInput.addEventListener('change', saveMainChecks);
+      qtyInput.addEventListener('input', saveMainChecks);
+    }
+
+    function ensureQuantityInputs() {
+      const categories = document.querySelectorAll('.category[data-cat]');
+      categories.forEach(cat => {
+        const catId = cat.getAttribute('data-cat') || '';
+        const ul = cat.querySelector('ul');
+        if (!ul) return;
+        const items = ul.querySelectorAll('li');
+        items.forEach(li => {
+          addQtyToLi(li, catId);
+        });
+      });
+    }
+
+    function toggleQtyVisibility(cb) {
+      const li = cb.closest('li');
+      if (!li) return;
+      const wrapper = li.querySelector('.qty-wrapper');
+      const qtyInput = wrapper ? wrapper.querySelector('.qty-input') : null;
+      if (!wrapper || !qtyInput) return;
+
+      if (cb.checked) {
+        // אם אין כמות – קובעים ברירת מחדל
+        if (!qtyInput.value || Number(qtyInput.value) <= 0) {
+          qtyInput.value = qtyInput.dataset.default || qtyInput.min || '1';
+        }
+        wrapper.style.display = 'inline-flex';
+      } else {
+        wrapper.style.display = 'none';
+        qtyInput.value = '';
+      }
+    }
+
+    // --- שמירת סימונים + כמויות ברשימה הראשית ---
     function saveMainChecks() {
       if (!window.localStorage) return;
       const data = {};
@@ -641,11 +752,24 @@
         const items = cat.querySelectorAll('li');
         items.forEach(li => {
           const cb = li.querySelector('input[type="checkbox"]');
-          const span = li.querySelector('span');
-          if (!cb || !span) return;
-          const text = span.textContent.trim();
+          const nameSpan = li.querySelector('label.item-label > span');
+          const qtyInput = li.querySelector('.qty-input');
+          if (!cb || !nameSpan) return;
+          const text = nameSpan.textContent.trim();
           const key = catId + '||' + text;
-          data[key] = cb.checked;
+
+          let qty = '';
+          if (qtyInput && qtyInput.value) {
+            const num = Number(qtyInput.value);
+            if (!isNaN(num) && num > 0) {
+              qty = num;
+            }
+          }
+
+          data[key] = {
+            checked: cb.checked,
+            qty: qty
+          };
         });
       });
       try {
@@ -669,25 +793,54 @@
         const items = cat.querySelectorAll('li');
         items.forEach(li => {
           const cb = li.querySelector('input[type="checkbox"]');
-          const span = li.querySelector('span');
-          if (!cb || !span) return;
-          const text = span.textContent.trim();
+          const nameSpan = li.querySelector('label.item-label > span');
+          const qtyInput = li.querySelector('.qty-input');
+          if (!cb || !nameSpan) return;
+          const text = nameSpan.textContent.trim();
           const key = catId + '||' + text;
-          if (Object.prototype.hasOwnProperty.call(data, key)) {
-            cb.checked = !!data[key];
+
+          if (!Object.prototype.hasOwnProperty.call(data, key)) return;
+
+          const entry = data[key];
+          if (typeof entry === 'boolean') {
+            cb.checked = entry;
+          } else if (entry && typeof entry === 'object') {
+            cb.checked = !!entry.checked;
+            if (qtyInput && entry.qty !== undefined && entry.qty !== '' && !isNaN(Number(entry.qty))) {
+              qtyInput.value = entry.qty;
+            }
           }
+          toggleQtyVisibility(cb);
         });
       });
+    }
+
+    function onMainCheckboxChange(e) {
+      const cb = e.target;
+      toggleQtyVisibility(cb);
+      saveMainChecks();
     }
 
     function attachMainCheckboxListeners() {
       const boxes = document.querySelectorAll('.category[data-cat] input[type="checkbox"]');
       boxes.forEach(cb => {
-        cb.addEventListener('change', saveMainChecks);
+        cb.removeEventListener('change', onMainCheckboxChange);
+        cb.addEventListener('change', onMainCheckboxChange);
       });
     }
 
     select.addEventListener('change', updateVisibleCategory);
+
+    function formatItemText(name, qtyInput) {
+      if (!qtyInput) return name;
+      const raw = qtyInput.value;
+      const num = Number(raw);
+      if (!raw || isNaN(num) || num <= 0) return name;
+
+      const unitType = qtyInput.dataset.unit || 'units';
+      const unitLabel = unitType === 'kg' ? 'ק"ג' : 'יחידות';
+      return name + ' – ' + num + ' ' + unitLabel;
+    }
 
     function generateList() {
       const lines = [];
@@ -699,8 +852,13 @@
         if (checked.length > 0) {
           lines.push(catName + ':');
           checked.forEach(cb => {
-            const text = cb.parentElement.querySelector('span').textContent.trim();
-            lines.push('• ' + text);
+            const li = cb.closest('li');
+            if (!li) return;
+            const nameSpan = cb.parentElement.querySelector('span');
+            const qtyInput = li.querySelector('.qty-input');
+            const name = nameSpan ? nameSpan.textContent.trim() : '';
+            const line = formatItemText(name, qtyInput);
+            lines.push('• ' + line);
           });
           lines.push('');
         }
@@ -766,6 +924,12 @@
           const ul = document.createElement('ul');
 
           checked.forEach(cb => {
+            const liMain = cb.closest('li');
+            const nameSpan = cb.parentElement.querySelector('span');
+            const qtyInput = liMain ? liMain.querySelector('.qty-input') : null;
+            const name = nameSpan ? nameSpan.textContent.trim() : '';
+            const fullText = formatItemText(name, qtyInput);
+
             const li = document.createElement('li');
             const label = document.createElement('label');
             label.className = 'item-label';
@@ -774,7 +938,7 @@
             input.type = 'checkbox';
 
             const span = document.createElement('span');
-            span.textContent = cb.parentElement.querySelector('span').textContent.trim();
+            span.textContent = fullText;
 
             label.appendChild(input);
             label.appendChild(span);
@@ -958,7 +1122,6 @@
         out.value = lines.join('\n');
       }
 
-      // גלילה אוטומטית לרשימה למעלה
       out.scrollIntoView({ behavior: 'smooth' });
       out.focus();
       out.select();
@@ -985,8 +1148,8 @@
 
         const items = Array.from(ul.querySelectorAll('li'));
         items.sort((a, b) => {
-          const textA = a.querySelector('span').textContent.trim();
-          const textB = b.querySelector('span').textContent.trim();
+          const textA = a.querySelector('label.item-label > span').textContent.trim();
+          const textB = b.querySelector('label.item-label > span').textContent.trim();
           return textA.localeCompare(textB, 'he');
         });
 
@@ -996,6 +1159,7 @@
 
     document.addEventListener('DOMContentLoaded', () => {
       restoreCustomItems();
+      ensureQuantityInputs();
       sortItemsInCategories();
       restoreMainChecks();
       attachMainCheckboxListeners();
