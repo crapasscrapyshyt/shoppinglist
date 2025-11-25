@@ -283,7 +283,7 @@
         <li><label class="item-label"><input type="checkbox"><span>פרמז׳ן</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>קוטג'</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>קממבר</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>רויקוטה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>ריקוטה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שמנת להקצפה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שמנת לבישול</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>צפתית</span></label></li>
@@ -668,7 +668,9 @@
       qtyInput.type = 'number';
       qtyInput.className = 'qty-input';
 
+      // ברירת מחדל: יחידות
       let unitType = 'units';
+      let unitLabel = 'יחידות';
       let step = '1';
       let min = '1';
 
@@ -676,15 +678,51 @@
         const herbs = ['כוסברה', 'נענע', 'פטרוזיליה', 'שמיר'];
         if (herbs.includes(itemName)) {
           unitType = 'units';
+          unitLabel = 'יחידות';
           step = '1';
           min = '1';
         } else {
           unitType = 'kg';
+          unitLabel = 'ק"ג';
           step = '0.5';
           min = '0.5';
         }
+      } else if (catId === 'dairy') {
+        const cheeseKg = [
+          'גבינה בולגרית',
+          'גבינה כחולה',
+          'גבינה צהובה מגורדת',
+          'גבינה צהובה פרוסה',
+          'גבינת פרמז׳ן מגורדת',
+          'מוצרלה',
+          'מנצ׳גו',
+          'קממבר',
+          'ריקוטה'
+        ];
+        if (cheeseKg.includes(itemName)) {
+          unitType = 'kg';
+          unitLabel = 'ק"ג';
+          step = '0.5';
+          min = '0.5';
+        } else if (itemName === 'ביצים') {
+          unitType = 'units';      // סוג לוגי
+          unitLabel = 'חבילות';   // תצוגה
+          step = '1';
+          min = '1';
+        } else {
+          unitType = 'units';
+          unitLabel = 'יחידות';
+          step = '1';
+          min = '1';
+        }
+      } else if (catId === 'meat') {
+        unitType = 'kg';
+        unitLabel = 'ק"ג';
+        step = '0.5';
+        min = '0.5';
       } else {
         unitType = 'units';
+        unitLabel = 'יחידות';
         step = '1';
         min = '1';
       }
@@ -692,11 +730,12 @@
       qtyInput.step = step;
       qtyInput.min = min;
       qtyInput.dataset.unit = unitType;
+      qtyInput.dataset.unitLabel = unitLabel;
       qtyInput.dataset.default = min;
 
       const unitSpan = document.createElement('span');
       unitSpan.className = 'qty-unit';
-      unitSpan.textContent = unitType === 'kg' ? 'ק"ג' : 'יחידות';
+      unitSpan.textContent = unitLabel;
 
       wrapper.appendChild(qtyInput);
       wrapper.appendChild(unitSpan);
@@ -838,7 +877,9 @@
       if (!raw || isNaN(num) || num <= 0) return name;
 
       const unitType = qtyInput.dataset.unit || 'units';
-      const unitLabel = unitType === 'kg' ? 'ק"ג' : 'יחידות';
+      const unitLabel = qtyInput.dataset.unitLabel ||
+        (unitType === 'kg' ? 'ק"ג' : 'יחידות');
+
       return name + ' – ' + num + ' ' + unitLabel;
     }
 
