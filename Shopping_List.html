@@ -400,6 +400,10 @@
         יצירת צ'ק ליסט לסופר
       </button>
 
+      <button type="button" class="btn-small" onclick="generateMissingList()" style="margin-right:8px;">
+        יצירת רשימת השלמות
+      </button>
+
       <p style="font-size:0.8rem;color:#555;margin:4px 0 6px;">
         אחרי הלחיצה – סמני הכל בתוך התיבה, העתיקי או עברי לצ'ק ליסט בסופר למטה.
       </p>
@@ -716,6 +720,66 @@
           saveSuperChecklistFromDOM();
         }
       });
+    }
+
+    // יצירת רשימת השלמות – רק פריטים שלא סומנו בצ'ק ליסט בסופר
+    function generateMissingList() {
+      const section = document.getElementById('super-checklist');
+      const container = document.getElementById('superChecklistContainer');
+      const out = document.getElementById('output');
+
+      if (!section || !container) {
+        alert('אין צ\'ק ליסט בסופר.');
+        return;
+      }
+
+      if (section.style.display === 'none' || !container.children.length) {
+        alert('אין צ\'ק ליסט בסופר – צרי קודם צ\'ק ליסט מהפריטים המסומנים.');
+        return;
+      }
+
+      const lines = [];
+      let hasAny = false;
+
+      lines.push('השלמות:');
+      lines.push('');
+
+      const blocks = Array.from(container.children);
+      blocks.forEach(block => {
+        const h3 = block.querySelector('h3');
+        const catName = h3 ? h3.textContent.trim() : '';
+        const lis = block.querySelectorAll('li');
+
+        const catLines = [];
+
+        lis.forEach(li => {
+          const cb = li.querySelector('input[type="checkbox"]');
+          const span = li.querySelector('span');
+          if (!cb || !span) return;
+
+          if (!cb.checked) {
+            hasAny = true;
+            catLines.push('• ' + span.textContent.trim());
+          }
+        });
+
+        if (catLines.length > 0) {
+          if (catName) {
+            lines.push(catName + ':');
+          }
+          lines.push(...catLines);
+          lines.push('');
+        }
+      });
+
+      if (!hasAny) {
+        out.value = 'אין השלמות – כל הפריטים בצ\'ק ליסט בסופר סומנו כנקנו.';
+      } else {
+        out.value = lines.join('\n');
+      }
+
+      out.focus();
+      out.select();
     }
 
     // מיון אוטומטי לפי א-ב בכל קטגוריה
