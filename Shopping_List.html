@@ -225,21 +225,38 @@
       <h2>ירקות ופירות</h2>
       <ul>
         <!-- ירקות -->
-        <li><label class="item-label"><input type="checkbox"><span>אבוקדו</span></label></li>
+  <li><label class="item-label"><input type="checkbox"><span>אבוקדו</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>ארטישוק ירושלמי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>בטטה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>ברוקולי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>גזר</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>דלעת</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>חסה</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>כוסברה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>כרוב לבן/סגול</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>כרובית</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>כרישה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>קולורבי</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>קישוא</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>מלפפונים</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>נענע</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>עגבניות</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>עגבניות שרי</span></label></li>
-        <li><label class="item-label"><input type="checkbox"><span>פטרוזיליה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>עלי מנגולד</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>פלפל חריף</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>פלפלים</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>פטרוזיליה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>פטריות</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>שורש פטרוזיליה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>שורש סלרי</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>שום</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>בצל ירוק</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שמיר</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>שומר</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>תרד טרי</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>תירס</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>תפוחי אדמה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>רוקט/אורוגולה</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>בזיליקום</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>טימין</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>רוזמרין</span></label></li>
 
         <!-- פירות -->
         <li><label class="item-label"><input type="checkbox"><span>אבטיח</span></label></li>
@@ -248,6 +265,7 @@
         <li><label class="item-label"><input type="checkbox"><span>אפרסקים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>בננות</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>ענבים</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>מנגו</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>ליים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>לימון</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>מלון</span></label></li>
@@ -256,6 +274,7 @@
         <li><label class="item-label"><input type="checkbox"><span>שזיפים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>תפוחים</span></label></li>
         <li><label class="item-label"><input type="checkbox"><span>תפוזים</span></label></li>
+        <li><label class="item-label"><input type="checkbox"><span>נענע</span></label></li>
       </ul>
     </div>
 
@@ -677,9 +696,23 @@
       let step = '1';
       let min = '1';
 
-      if (catId === 'vegfruit') {
-        const herbs = ['כוסברה', 'נענע','חסה', 'פטרוזיליה', 'שמיר'];
-        if (herbs.includes(itemName)) {
+if (catId === 'vegfruit') {
+        const herbs = [
+          'כוסברה',
+          'נענע',
+          'חסה',
+          'פטרוזיליה',
+          'שמיר',
+          'תרד טרי',
+          'עלי מנגולד',
+          'רוקט/אורוגולה',
+          'בזיליקום',
+          'טימין',
+          'רוזמרין'
+        ];
+        const rootUnits = ['שורש פטרוזיליה', 'שורש סלרי'];
+
+        if (herbs.includes(itemName) || rootUnits.includes(itemName)) {
           unitType = 'units';
           unitLabel = 'יחידות';
           step = '1';
