@@ -761,204 +761,222 @@
 
     <script>
         const DEFAULT_CATEGORIES = {
-            '🥬 ירקות': [
+            '🥬 ירקות ופירות': [
                 { name: 'אבוקדו', unit: 'יחידות' },
+                { name: 'אבטיח', unit: 'יחידות' },
+                { name: 'אגס', unit: 'ק"ג' },
+                { name: 'אפרסקים', unit: 'ק"ג' },
                 { name: 'ארטישוק ירושלמי', unit: 'ק"ג' },
+                { name: 'אשכוליות', unit: 'יחידות' },
+                { name: 'בזיליקום', unit: 'צרור' },
                 { name: 'בטטה', unit: 'ק"ג' },
+                { name: 'בננות', unit: 'ק"ג' },
+                { name: 'בצל ירוק', unit: 'צרור' },
                 { name: 'ברוקולי', unit: 'יחידות' },
                 { name: 'גזר', unit: 'ק"ג' },
                 { name: 'דלעת', unit: 'ק"ג' },
                 { name: 'חסה', unit: 'יחידות' },
+                { name: 'טימין', unit: 'צרור' },
                 { name: 'כוסברה', unit: 'צרור' },
                 { name: 'כרוב לבן/סגול', unit: 'יחידות' },
                 { name: 'כרובית', unit: 'יחידות' },
                 { name: 'כרישה', unit: 'יחידות' },
-                { name: 'קולורבי', unit: 'יחידות' },
-                { name: 'קישוא', unit: 'ק"ג' },
-                { name: 'מלפפונים', unit: 'ק"ג' },
-                { name: 'עלי מנגולד', unit: 'צרור' },
-                { name: 'פטרוזיליה', unit: 'צרור' },
-                { name: 'צנונית', unit: 'צרור' },
-                { name: 'צנון', unit: 'יחידות' },
-                { name: 'שום', unit: 'יחידות' },
-                { name: 'שלישיית פלפלים', unit: 'יחידות' },
-                { name: 'פלפל חריף', unit: 'יחידות' },
-                { name: 'פטריות', unit: 'חבילה' },
-                { name: 'בצל', unit: 'ק"ג' },
-                { name: "ג'ינג'ר", unit: 'יחידות' },
-                { name: 'עגבניות', unit: 'ק"ג' },
-                { name: 'תרד', unit: 'צרור' },
-                { name: 'סלרי', unit: 'יחידות' },
-                { name: 'סלרי עלים', unit: 'צרור' }
-            ],
-            '🍎 פירות': [
-                { name: 'אבטיח', unit: 'יחידות' },
-                { name: 'אננס', unit: 'יחידות' },
-                { name: 'אשכוליות', unit: 'יחידות' },
-                { name: 'אפרסקים', unit: 'ק"ג' },
-                { name: 'בננות', unit: 'ק"ג' },
-                { name: 'ענבים', unit: 'ק"ג' },
-                { name: 'מנגו', unit: 'יחידות' },
                 { name: 'ליים', unit: 'יחידות' },
                 { name: 'לימון', unit: 'יחידות' },
                 { name: 'מלון', unit: 'יחידות' },
+                { name: 'מלפפונים', unit: 'ק"ג' },
+                { name: 'מנגו', unit: 'יחידות' },
+                { name: 'נענע', unit: 'צרור' },
                 { name: 'נקטרינות', unit: 'ק"ג' },
+                { name: 'עלי מנגולד', unit: 'צרור' },
+                { name: 'ענבים', unit: 'ק"ג' },
+                { name: 'פטרוזיליה', unit: 'צרור' },
+                { name: 'פטריות', unit: 'חבילה' },
+                { name: 'פלפל חריף', unit: 'יחידות' },
+                { name: 'פלפלים', unit: 'יחידות' },
+                { name: 'קולורבי', unit: 'יחידות' },
+                { name: 'קישוא', unit: 'ק"ג' },
                 { name: 'קלמנטינות', unit: 'ק"ג' },
+                { name: 'רוזמרין', unit: 'צרור' },
+                { name: 'רוקט/אורוגולה', unit: 'חבילה' },
+                { name: 'שום', unit: 'יחידות' },
+                { name: 'שומר', unit: 'יחידות' },
+                { name: 'שורש סלרי', unit: 'יחידות' },
+                { name: 'שורש פטרוזיליה', unit: 'יחידות' },
                 { name: 'שזיפים', unit: 'ק"ג' },
+                { name: 'שמיר', unit: 'צרור' },
+                { name: 'תירס', unit: 'יחידות' },
+                { name: 'תפוזים', unit: 'ק"ג' },
+                { name: 'תפוחי אדמה', unit: 'ק"ג' },
                 { name: 'תפוחים', unit: 'ק"ג' },
-                { name: 'תפוזים', unit: 'ק"ג' }
+                { name: 'תרד טרי', unit: 'צרור' }
             ],
             '🥛 מוצרי חלב וביצים': [
-                { name: 'אשל', unit: 'יחידות' },
-                { name: 'אקטימל', unit: 'יחידות' }
-                { name: 'בולגרית', unit: 'יחידות' },
+                { name: 'אקטימל', unit: 'יחידות' },
+                { name: 'ביצים', unit: 'תבנית' },
+                { name: 'ברי', unit: 'יחידות' },
+                { name: 'גאודה', unit: 'גרם' },
+                { name: 'גבינה בולגרית', unit: 'יחידות' },
+                { name: 'גבינה כחולה', unit: 'יחידות' },
                 { name: 'גבינה לבנה', unit: 'יחידות' },
-                { name: 'גבינה צהובה', unit: 'גרם' },
-                { name: 'גבינה צהובה 9%', unit: 'גרם' },
-                { name: 'יוגורט לבן', unit: 'יחידות' },
+                { name: 'גבינה צהובה מגורדת', unit: 'שקית' },
+                { name: 'גבינה צהובה פרוסה', unit: 'חבילה' },
+                { name: "גבינת פרמז'ן מגורדת", unit: 'שקית' },
+                { name: 'גבינת שמנת', unit: 'יחידות' },
+                { name: 'דני/מילקי', unit: 'יחידות' },
+                { name: 'חלב', unit: 'ליטר' },
+                { name: 'חמאה', unit: 'יחידות' },
+                { name: 'יוגורט', unit: 'יחידות' },
+                { name: 'יוגורט טבעי', unit: 'יחידות' },
+                { name: 'לבנה', unit: 'יחידות' },
+                { name: 'מוצרלה', unit: 'יחידות' },
+                { name: "מנצ'גו", unit: 'יחידות' },
+                { name: 'מסקרפונה', unit: 'יחידות' },
+                { name: "פרמז'ן", unit: 'יחידות' },
+                { name: 'צפתית', unit: 'יחידות' },
                 { name: "קוטג'", unit: 'יחידות' },
+                { name: 'קממבר', unit: 'יחידות' },
                 { name: 'ריקוטה', unit: 'יחידות' },
                 { name: 'שמנת לבישול', unit: 'יחידות' },
-                { name: 'שמנת חמוצה', unit: 'יחידות' },
-                { name: 'חמאה', unit: 'יחידות' },
-                { name: 'ביצים', unit: 'תבנית' },
-                { name: 'חלב רגיל', unit: 'ליטר' },
-                { name: 'חלב שקדים', unit: 'ליטר' },
-                { name: 'חלב סויה', unit: 'ליטר' }
+                { name: 'שמנת להקצפה', unit: 'יחידות' }
             ],
             '🥖 מאפים ולחמים': [
-                { name: 'לחם אחיד', unit: 'יחידות' },
-                { name: 'לחם מלא', unit: 'יחידות' },
-                { name: 'לחם שחור', unit: 'יחידות' },
-                { name: 'פיתה', unit: 'שקית' },
-                { name: 'פיתות מלא', unit: 'שקית' },
-                { name: 'עוגיות', unit: 'חבילה' },
-                { name: 'עוגה', unit: 'יחידות' }
-            ],
-            '🥣 דגנים וארוחת בוקר': [
-                { name: 'ברנפלקס', unit: 'קופסה' },
-                { name: 'גרנולה', unit: 'שקית' },
-                { name: 'קורנפלקס', unit: 'קופסה' },
-                { name: 'קוואקר', unit: 'שקית' },
-                { name: 'שיבולת שועל', unit: 'שקית' },
-                { name: 'דגני ילדים', unit: 'קופסה' },
+                { name: 'בצק עלים', unit: 'יחידות' },
+                { name: "ג'חנון", unit: 'יחידות' },
+                { name: 'טורטיה', unit: 'שקית' },
+                { name: 'לחם פרוס', unit: 'יחידות' },
+                { name: 'לחמניות', unit: 'יחידות' },
+                { name: 'מלוואח', unit: 'יחידות' },
+                { name: 'פיתות', unit: 'שקית' },
+                { name: 'פסטה', unit: 'שקית' },
+                { name: 'קורנפלקס/גרנולה', unit: 'קופסה' },
                 { name: 'קרקרים', unit: 'חבילה' }
             ],
             '🧂 מזווה ותבלינים': [
-                { name: 'אטריות', unit: 'שקית' },
                 { name: 'אורז', unit: 'ק"ג' },
-                { name: 'פסטה', unit: 'שקית' },
-                { name: 'קוסקוס', unit: 'שקית' },
-                { name: 'עדשים שחורות', unit: 'שקית' },
-                { name: 'עדשים כתומות', unit: 'שקית' },
-                { name: 'שעועית', unit: 'שקית' },
+                { name: 'חומוס בשימורים', unit: 'פחית' },
+                { name: 'חומוס יבש', unit: 'שקית' },
+                { name: 'טונה בשימורים', unit: 'פחית' },
                 { name: 'טחינה', unit: 'צנצנת' },
-                { name: 'קמח', unit: 'ק"ג' },
-                { name: 'קמח תופח', unit: 'שקית' },
-                { name: 'סוכר', unit: 'ק"ג' },
-                { name: 'סוכר חום', unit: 'שקית' },
+                { name: 'כמון', unit: 'צנצנת' },
+                { name: 'מיונז', unit: 'צנצנת' },
                 { name: 'מלח', unit: 'שקית' },
-                { name: 'שמן', unit: 'בקבוק' },
+                { name: 'מרק עוף צמחי', unit: 'קופסה' },
+                { name: 'סוכר', unit: 'ק"ג' },
+                { name: 'סוכר וניל', unit: 'שקית' },
+                { name: 'עדשים', unit: 'שקית' },
+                { name: 'פלפל שחור', unit: 'צנצנת' },
+                { name: 'פפריקה', unit: 'צנצנת' },
+                { name: 'פרורי לחם', unit: 'שקית' },
+                { name: 'קטשופ', unit: 'בקבוק' },
+                { name: 'קמח', unit: 'ק"ג' },
+                { name: 'רוטב סויה', unit: 'בקבוק' },
+                { name: 'רסק עגבניות מוטי', unit: 'פחית' },
+                { name: 'שום גבישי', unit: 'צנצנת' },
+                { name: 'שוקולית', unit: 'צנצנת' },
                 { name: 'שמן זית', unit: 'בקבוק' },
                 { name: 'שמן קנולה', unit: 'בקבוק' },
-                { name: 'רוטב סויה', unit: 'בקבוק' },
-                { name: 'רוטב טריאקי', unit: 'בקבוק' },
-                { name: 'רוטב עגבניות', unit: 'צנצנת' },
-                { name: 'פפריקה', unit: 'צנצנת' },
-                { name: 'כמון', unit: 'צנצנת' },
-                { name: 'כורכום', unit: 'צנצנת' },
-                { name: 'תבלין על האש', unit: 'שקית' },
-                { name: 'תבלין לפסטה', unit: 'שקית' },
-                { name: 'אבקת מרק', unit: 'שקית' },
-                { name: 'קקאו', unit: 'שקית' },
-                { name: 'אבקת אפייה', unit: 'שקית' },
-                { name: 'אבקת סודה', unit: 'שקית' },
-                { name: 'וניל', unit: 'שקית' }
+                { name: 'שעועית', unit: 'שקית' },
+                { name: 'תירס בשימורים', unit: 'פחית' }
             ],
             '🥩 בשר עוף ודגים': [
-                { name: 'חזה עוף', unit: 'ק"ג' },
-                { name: 'עוף טחון', unit: 'ק"ג' },
-                { name: 'קציצות מוכנות', unit: 'חבילה' },
-                { name: 'כנפיים', unit: 'ק"ג' },
+                { name: 'אוסובוקו', unit: 'ק"ג' },
+                { name: 'אנטריקוט', unit: 'ק"ג' },
                 { name: 'בשר טחון', unit: 'ק"ג' },
-                { name: 'דג סלמון', unit: 'ק"ג' },
-                { name: 'דגי ים', unit: 'ק"ג' }
-            ],
-            '🧊 קפואים': [
-                { name: 'אפונה קפואה', unit: 'שקית' },
-                { name: 'תירס קפוא', unit: 'שקית' },
-                { name: 'שעועית ירוקה', unit: 'שקית' },
-                { name: 'פיצה קפואה', unit: 'יחידות' },
-                { name: 'בורקס קפוא', unit: 'חבילה' },
-                { name: "צ'יפס קפוא", unit: 'שקית' }
+                { name: 'גרונות הודו', unit: 'ק"ג' },
+                { name: 'דג טרי', unit: 'ק"ג' },
+                { name: 'דגים קפואים', unit: 'שקית' },
+                { name: 'טופו', unit: 'חבילה' },
+                { name: 'ירקות קפואים', unit: 'שקית' },
+                { name: 'כנפיים', unit: 'ק"ג' },
+                { name: 'כרעיים', unit: 'ק"ג' },
+                { name: 'לבבות עוף', unit: 'ק"ג' },
+                { name: 'נקניקיות בקר', unit: 'חבילה' },
+                { name: 'נקניקיות ילדים', unit: 'חבילה' },
+                { name: 'נקניקיות עוף', unit: 'חבילה' },
+                { name: 'סטייק סינטה', unit: 'ק"ג' },
+                { name: 'סלמון, פילה', unit: 'ק"ג' },
+                { name: 'פסטרמה', unit: 'גרם' },
+                { name: 'פרגיות', unit: 'ק"ג' },
+                { name: 'צוואר בקר', unit: 'ק"ג' },
+                { name: "צ'יפס קפוא", unit: 'שקית' },
+                { name: 'צלי כתף', unit: 'ק"ג' },
+                { name: 'שוקיים', unit: 'ק"ג' },
+                { name: 'שייטל', unit: 'ק"ג' },
+                { name: 'תחליף בשר', unit: 'חבילה' },
+                { name: 'גלידה', unit: 'ליטר' }
             ],
             '🥤 שתייה וחטיפים': [
-                { name: 'קולה', unit: 'בקבוק' },
-                { name: 'ספרייט', unit: 'בקבוק' },
-                { name: 'מים', unit: 'שישיה' },
+                { name: 'חטיפים מלוחים', unit: 'שקית' },
+                { name: 'חלב סויה/שקדים', unit: 'ליטר' },
+                { name: 'מים מינרליים', unit: 'שישיה' },
                 { name: 'מיצים', unit: 'ליטר' },
-                { name: 'וופלים', unit: 'חבילה' },
-                { name: 'ביסלי', unit: 'שקית' },
-                { name: 'במבה', unit: 'שקית' },
+                { name: 'סודה', unit: 'בקבוק' },
+                { name: 'עוגיות', unit: 'חבילה' },
+                { name: 'קפה', unit: 'שקית' },
                 { name: 'שוקולד', unit: 'טבלה' },
-                { name: 'חטיפי אנרגיה', unit: 'חבילה' }
+                { name: 'תה', unit: 'קופסה' }
             ],
-            '🧴 ניקיון כביסה וטואלטיקה': [
-                { name: 'אבקת כביסה', unit: 'קופסה' },
-                { name: "ג'ל כביסה", unit: 'בקבוק' },
+            '🧹 ניקיון וכביסה': [
+                { name: '00 ירוק', unit: 'בקבוק' },
+                { name: "אבקת כביסה/ג'ל", unit: 'קופסה' },
+                { name: 'אקונומיקה', unit: 'בקבוק' },
+                { name: 'חומר לניקוי רצפה', unit: 'בקבוק' },
+                { name: 'מבריק נירוסטה', unit: 'בקבוק' },
+                { name: 'מגבונים לחים לניקוי', unit: 'חבילה' },
                 { name: 'מרכך כביסה', unit: 'בקבוק' },
-                { name: 'סבון כלים', unit: 'בקבוק' },
-                { name: 'סבון ידיים', unit: 'בקבוק' },
-                { name: 'שמפו', unit: 'בקבוק' },
-                { name: 'מרכך שיער', unit: 'בקבוק' },
+                { name: 'נוזל כלים', unit: 'בקבוק' },
+                { name: 'ספוגים לכלים', unit: 'חבילה' },
+                { name: 'שקיות זבל', unit: 'גליל' }
+            ],
+            '🧴 טואלטיקה': [
                 { name: 'דאודורנט', unit: 'יחידות' },
+                { name: 'חוט דנטלי', unit: 'יחידות' },
+                { name: 'טמפונים/תחבושות', unit: 'חבילה' },
+                { name: 'כפפות חד פעמיות ללא אבקה', unit: 'קופסה' },
+                { name: 'מברשות שיניים', unit: 'יחידות' },
+                { name: 'מגבוני אף/טישו', unit: 'קופסה' },
+                { name: 'מי פה', unit: 'בקבוק' },
+                { name: 'מרכך שיער', unit: 'בקבוק' },
+                { name: 'משחת שיניים', unit: 'שפופרת' },
                 { name: 'נייר טואלט', unit: 'חבילה' },
-                { name: 'מגבונים', unit: 'חבילה' },
-                { name: 'נייר סופג', unit: 'חבילה' },
-                { name: 'שקיות אשפה', unit: 'גליל' }
+                { name: 'סבון גוף', unit: 'בקבוק' },
+                { name: 'שמפו', unit: 'בקבוק' }
             ],
             '🏠 שונות לבית': [
-                { name: 'נרות', unit: 'חבילה' },
-                { name: 'גפרורים', unit: 'קופסה' },
-                { name: 'סוללות', unit: 'חבילה' },
-                { name: 'נייר אפייה', unit: 'גליל' },
+                { name: 'גפרורים/מצית', unit: 'יחידות' },
+                { name: 'זיפלוק/שקיות עם סגירה', unit: 'חבילה' },
                 { name: 'נייר אלומיניום', unit: 'גליל' },
-                { name: 'ניילון נצמד', unit: 'גליל' },
-                { name: 'צלחות חד פעמי', unit: 'חבילה' },
-                { name: 'כוסות חד פעמי', unit: 'שרוול' },
-                { name: 'סכו"ם חד פעמי', unit: 'חבילה' }
+                { name: 'נייר אפייה', unit: 'גליל' },
+                { name: "שקיות סנדוויצ'ים", unit: 'חבילה' }
             ]
         };
 
         const CATEGORY_ICONS = {
-            '🥬 ירקות': '🥬',
-            '🍎 פירות': '🍎',
+            '🥬 ירקות ופירות': '🥬',
             '🥛 מוצרי חלב וביצים': '🥛',
             '🥖 מאפים ולחמים': '🥖',
-            '🥣 דגנים וארוחת בוקר': '🥣',
             '🧂 מזווה ותבלינים': '🧂',
             '🥩 בשר עוף ודגים': '🥩',
-            '🧊 קפואים': '🧊',
             '🥤 שתייה וחטיפים': '🥤',
-            '🧴 ניקיון כביסה וטואלטיקה': '🧴',
+            '🧹 ניקיון וכביסה': '🧹',
+            '🧴 טואלטיקה': '🧴',
             '🏠 שונות לבית': '🏠'
         };
 
         const CATEGORY_COLORS = {
-            '🥬 ירקות': 'linear-gradient(135deg, #4ade80, #10b981)',
-            '🍎 פירות': 'linear-gradient(135deg, #f87171, #ef4444)',
+            '🥬 ירקות ופירות': 'linear-gradient(135deg, #4ade80, #10b981)',
             '🥛 מוצרי חלב וביצים': 'linear-gradient(135deg, #60a5fa, #0ea5e9)',
             '🥖 מאפים ולחמים': 'linear-gradient(135deg, #fbbf24, #f97316)',
-            '🥣 דגנים וארוחת בוקר': 'linear-gradient(135deg, #facc15, #f59e0b)',
             '🧂 מזווה ותבלינים': 'linear-gradient(135deg, #fb7185, #ec4899)',
             '🥩 בשר עוף ודגים': 'linear-gradient(135deg, #f87171, #dc2626)',
-            '🧊 קפואים': 'linear-gradient(135deg, #67e8f9, #06b6d4)',
             '🥤 שתייה וחטיפים': 'linear-gradient(135deg, #a78bfa, #8b5cf6)',
-            '🧴 ניקיון כביסה וטואלטיקה': 'linear-gradient(135deg, #22d3ee, #14b8a6)',
+            '🧹 ניקיון וכביסה': 'linear-gradient(135deg, #22d3ee, #14b8a6)',
+            '🧴 טואלטיקה': 'linear-gradient(135deg, #f472b6, #ec4899)',
             '🏠 שונות לבית': 'linear-gradient(135deg, #94a3b8, #6b7280)'
         };
 
-        const STORAGE_KEY = 'marom_shopping_list_v2';
+        const STORAGE_KEY = 'marom_shopping_list_v3';
 
         let categories = {};
         let selectedItems = {};
@@ -1051,7 +1069,6 @@
                 container.appendChild(card);
             });
 
-            // Add event listeners
             document.querySelectorAll('.item-row').forEach(row => {
                 row.addEventListener('click', (e) => {
                     if (e.target.closest('.quantity-controls')) return;
@@ -1354,14 +1371,12 @@
             }, 2500);
         }
 
-        // Initialize
         document.addEventListener('DOMContentLoaded', () => {
             loadData();
             initFilters();
             renderCategories();
             renderChecklist();
 
-            // Enter key for add item
             document.getElementById('newItemName').addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') addNewItem();
             });
