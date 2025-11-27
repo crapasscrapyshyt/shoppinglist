@@ -1,24 +1,23 @@
 <!DOCTYPE html>
 <html lang="he" dir="rtl">
 <head>
-<meta charset="UTF-8">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="default">
     <meta name="theme-color" content="#14b8a6">
-    <title>Shopping List</title>
+    <meta name="msapplication-TileColor" content="#14b8a6">
+    <meta name="msapplication-TileImage" content="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/692822d8814bc4e91ed6f83f/3984d7ae0_shopping-icon.png">
 
-    <!-- אייקון יחיד לכל הפלטפורמות -->
-    <link rel="icon" type="image/png" sizes="192x192" href="shopping-icon.png">
-    <link rel="apple-touch-icon" href="shopping-icon.png">
-    <link rel="shortcut icon" href="shopping-icon.png">
+    <!-- אייקון למסך הבית ולאפליקציה -->
+    <link rel="apple-touch-icon" href="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/692822d8814bc4e91ed6f83f/3984d7ae0_shopping-icon.png">
+    <link rel="icon" type="image/png" href="https://qtrypzzcjebvfcihiynt.supabase.co/storage/v1/object/public/base44-prod/public/692822d8814bc4e91ed6f83f/3984d7ae0_shopping-icon.png">
 
-    <!-- מניפסט לאנדרואיד/ווינדוס -->
+    <!-- מניפסט – כאן נגדיר את השם "Shopping List" במסך הבית -->
     <link rel="manifest" href="manifest.webmanifest">
 
-    <!-- קישור לקובץ המניפסט (פירוט בהמשך) -->
-    <link rel="manifest" href="manifest.webmanifest">
+    <title>רשימת קניות לבית משפחת מרום</title>
+
     <style>
         * {
             margin: 0;
@@ -702,7 +701,6 @@
     </header>
 
     <main>
-        <!-- Control Bar -->
         <div class="card control-bar">
             <div class="control-row">
                 <select id="categoryFilter">
@@ -726,11 +724,9 @@
             </div>
         </div>
 
-        <!-- Categories Container -->
         <div id="categoriesContainer"></div>
 
-        <!-- Summary Card -->
-        <div class="card">
+        <div class="card" id="summaryCard">
             <div class="summary-header">
                 <span>📝</span>
                 <h2>רשימה מסוכמת להעתקה / צ'ק ליסט</h2>
@@ -753,7 +749,6 @@
             </div>
         </div>
 
-        <!-- Supermarket Checklist -->
         <div class="card" id="checklistCard">
             <div class="checklist-header">
                 <h2>🛒 צ'ק ליסט בסופר</h2>
@@ -788,6 +783,7 @@
                 { name: 'כרישה', unit: 'יחידות', step: 1, min: 1 },
                 { name: 'מלפפונים', unit: 'ק"ג', step: 0.5, min: 0.5 },
                 { name: 'נענע', unit: 'צרור', step: 1, min: 1 },
+                { name: 'עגבניות', unit: 'ק"ג', step: 0.5, min: 0.5 },
                 { name: 'עלי מנגולד', unit: 'צרור', step: 1, min: 1 },
                 { name: 'פטרוזיליה', unit: 'צרור', step: 1, min: 1 },
                 { name: 'פטריות', unit: 'חבילה', step: 1, min: 1 },
@@ -836,6 +832,7 @@
                 { name: 'גבינה צהובה פרוסה', unit: 'ק"ג', step: 0.1, min: 0.1 },
                 { name: "גבינת פרמז'ן מגורדת", unit: 'ק"ג', step: 0.1, min: 0.1 },
                 { name: 'גבינת שמנת', unit: 'יחידות', step: 1, min: 1 },
+                { name: 'גלידה', unit: 'ליטר', step: 1, min: 1 },
                 { name: 'דני/מילקי', unit: 'יחידות', step: 1, min: 1 },
                 { name: 'חלב', unit: 'ליטר', step: 1, min: 1 },
                 { name: 'חמאה', unit: 'יחידות', step: 1, min: 1 },
@@ -896,7 +893,6 @@
                 { name: 'אוסובוקו', unit: 'ק"ג', step: 0.5, min: 0.5 },
                 { name: 'אנטריקוט', unit: 'ק"ג', step: 0.5, min: 0.5 },
                 { name: 'בשר טחון', unit: 'ק"ג', step: 0.5, min: 0.5 },
-                { name: 'גלידה', unit: 'ליטר', step: 1, min: 1 },
                 { name: 'גרונות הודו', unit: 'ק"ג', step: 0.5, min: 0.5 },
                 { name: 'דג טרי', unit: 'ק"ג', step: 0.5, min: 0.5 },
                 { name: 'דגים קפואים', unit: 'שקית', step: 1, min: 1 },
@@ -1239,7 +1235,9 @@
             boughtItems = {};
             saveData();
             renderChecklist();
-            document.getElementById('checklistCard').scrollIntoView({ behavior: 'smooth' });
+            setTimeout(() => {
+                document.getElementById('checklistCard').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
             showToast('צ\'ק ליסט נוצר');
         }
 
@@ -1261,13 +1259,11 @@
             );
             
             let boughtCount = 0;
-            Object.values(selectedCategories).forEach(items => {
+            Object.entries(selectedCategories).forEach(([cat, items]) => {
                 items.forEach(item => {
-                    Object.keys(selectedCategories).forEach(cat => {
-                        if (selectedCategories[cat].includes(item)) {
-                            if (boughtItems[`${cat}|${item.name}`]) boughtCount++;
-                        }
-                    });
+                    if (boughtItems[`${cat}|${item.name}`]) {
+                        boughtCount++;
+                    }
                 });
             });
 
@@ -1360,6 +1356,9 @@
             });
             
             document.getElementById('summaryText').value = text;
+            setTimeout(() => {
+                document.getElementById('summaryText').scrollIntoView({ behavior: 'smooth' });
+            }, 100);
             showToast('רשימת ההשלמות נוצרה');
         }
 
